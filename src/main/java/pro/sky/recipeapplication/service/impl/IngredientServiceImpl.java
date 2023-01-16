@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pro.sky.recipeapplication.model.Ingredient;
 import pro.sky.recipeapplication.service.IngredientService;
 import pro.sky.recipeapplication.service.exceptions.ModelNotFoundException;
-import pro.sky.recipeapplication.service.verification.Verif;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
 @Service
 public class IngredientServiceImpl implements IngredientService {
 
-    private static Long id = 0L;
+    private static Long id = 3L;
     private static final Map<Long, Ingredient> ingredientsList = new LinkedHashMap<>();
 
     public static void putDefaultIngredients() {
@@ -22,8 +21,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void addNewIngredient(String name, int count, String units) {
-        ingredientsList.put(id++, new Ingredient(Verif.checkName(name), Verif.checkInt(count), units));
+    public void addNewIngredient(Ingredient ingredient) {
+        ingredientsList.put(id++, ingredient);
     }
 
     @Override

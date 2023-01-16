@@ -6,7 +6,7 @@ import pro.sky.recipeapplication.service.exceptions.ModelNotFoundException;
 public interface IngredientService {
     Ingredient getIngredient(Long identifier) throws ModelNotFoundException;
 
-    void addNewIngredient(String name, int count, String units);
+    void addNewIngredient(Ingredient ingredient);
 
     String getAllIngredients();
 

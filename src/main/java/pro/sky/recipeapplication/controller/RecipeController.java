@@ -1,13 +1,9 @@
 package pro.sky.recipeapplication.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import pro.sky.recipeapplication.model.Ingredient;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.recipeapplication.model.Recipe;
-import pro.sky.recipeapplication.service.exceptions.ModelNotFoundException;
 import pro.sky.recipeapplication.service.RecipeService;
+import pro.sky.recipeapplication.service.exceptions.ModelNotFoundException;
 
 import java.util.List;
 
@@ -16,28 +12,27 @@ import java.util.List;
 public class RecipeController {
     private final RecipeService recipeService;
 
-    @GetMapping
-    public String start() {
-        return "Приложение запущено";
-    }
-
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/getrecipe")
+    @GetMapping()
     public Recipe getRecipe(@RequestParam Long id) throws ModelNotFoundException {
         return recipeService.getRecipe(id);
     }
 
-    @GetMapping("/addrecipe")
-    public void addRecipe(@RequestParam String name, @RequestParam int count, @RequestParam String units,
-                              List<Ingredient> ingredients, List<String> cookingSteps) {
-        recipeService.addNewRecipe(name, count, units, ingredients, cookingSteps);
+    @GetMapping("/addlist")
+    public void add(@RequestBody List<Recipe> recipe) {
+        recipeService.addRecipeList(recipe);
     }
 
-    @GetMapping("/allrecipes")
-    public String getAllRecipes () {
+    @PostMapping("/add")
+    public void addRecipe(@RequestBody Recipe recipe) {
+        recipeService.addRecipe(recipe);
+    }
+
+    @GetMapping("/all")
+    public String getAllRecipes() {
         return recipeService.getAllRecipes();
     }
 }

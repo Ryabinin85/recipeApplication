@@ -15,18 +15,17 @@ public class IngredientController {
         this.ingredientService = ingredientService;
     }
 
-    @GetMapping("/getingredient")
+    @GetMapping()
     public Ingredient getIngredient(@RequestParam Long id) throws ModelNotFoundException {
         return ingredientService.getIngredient(id);
     }
 
-    @GetMapping("/addingredient")
-
-    public void addIngredient(@RequestParam String name, @RequestParam int count, @RequestParam String units) {
-        ingredientService.addNewIngredient(name, count, units);
+    @PostMapping("/add")
+    public void addIngredient(@RequestBody Ingredient ingredient) {
+        ingredientService.addNewIngredient(ingredient);
     }
 
-    @GetMapping("/allingredients")
+    @GetMapping("/all")
     public String getAllIngredients() {
         return ingredientService.getAllIngredients();
     }

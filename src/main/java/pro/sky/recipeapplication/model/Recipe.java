@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +20,6 @@ public class Recipe {
     private final int cookTime;
     @JsonProperty("ingredients")
     private final List<Ingredient> ingredients;
-    @JsonProperty("cookingSteps")
-    private final List<String> cookingSteps;
+    @JsonProperty("cookingInstruction")
+    private final Map<Long, String> cookingInstruction;
 }
