@@ -19,7 +19,7 @@ public class Recipe {
     @JsonProperty("cookTime")
     private final int cookTime;
     @JsonProperty("ingredients")
-    private final List<Ingredient> ingredients;
+    private final List <Ingredient> ingredients;
     @JsonProperty("cookingInstruction")
     private final Map<Long, String> cookingInstruction;
 }
