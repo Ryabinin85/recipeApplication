@@ -12,31 +12,57 @@ import java.util.Map;
 public class IngredientServiceImpl implements IngredientService {
 
     private static Long id = 3L;
-    private static final Map<Long, Ingredient> ingredientsList = new LinkedHashMap<>();
+    private static Map<Long, Ingredient> ingredientList = new LinkedHashMap<>();
+
+    public static Map<Long, Ingredient> getIngredientList() {
+        return ingredientList;
+    }
 
     public static void putDefaultIngredients() {
-        ingredientsList.put(0L, new Ingredient("Специи", 0, "по вкусу"));
-        ingredientsList.put(1L, new Ingredient("Лук", 1, "кг"));
-        ingredientsList.put(2L, new Ingredient("Картофель", 1, "кг"));
+        ingredientList.put(0L, new Ingredient("Специи", 0, "по вкусу"));
+        ingredientList.put(1L, new Ingredient("Лук", 1, "кг"));
+        ingredientList.put(2L, new Ingredient("Картофель", 1, "кг"));
     }
 
     @Override
     public void addNewIngredient(Ingredient ingredient) {
-        ingredientsList.put(id++, ingredient);
+        ingredientList.put(id++, ingredient);
     }
 
     @Override
     public Ingredient getIngredient(Long id) throws ModelNotFoundException {
-        if (ingredientsList.isEmpty() || !ingredientsList.containsKey(id)) {
+        if (ingredientList.isEmpty() || !ingredientList.containsKey(id)) {
             throw new ModelNotFoundException("Такого ингредиента нет!");
         } else {
-            return ingredientsList.get(id);
+            return ingredientList.get(id);
         }
     }
 
     @Override
     public String getAllIngredients() {
         putDefaultIngredients();
-        return ingredientsList.toString();
+        return ingredientList.toString();
+    }
+
+    @Override
+    public Ingredient editIngredient(long id, Ingredient ingredient) {
+        if (ingredient != null && !ingredientList.isEmpty() && ingredientList.containsKey(id)) {
+            return ingredientList.put(id, ingredient);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean deleteIngredient(long id) {
+        if (ingredientList.containsKey(id)) {
+            ingredientList.remove(id);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void deleteAllIngredients() {
+        ingredientList = new LinkedHashMap<>();
     }
 }

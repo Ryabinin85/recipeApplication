@@ -6,14 +6,15 @@ import pro.sky.recipeapplication.model.Recipe;
 import pro.sky.recipeapplication.service.RecipeService;
 import pro.sky.recipeapplication.service.exceptions.ModelNotFoundException;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    private final static Map<Long, Recipe> recipeList = new HashMap<>();
+    private static Map<Long, Recipe> recipeList = new LinkedHashMap<>();
     private static Long id = 1L;
 
     @Override
@@ -41,6 +42,45 @@ public class RecipeServiceImpl implements RecipeService {
     public String getAllRecipes() {
         putDefaultRecipes();
         return recipeList.toString();
+    }
+
+    @Override
+    public Recipe editRecipe(long id, Recipe recipe) {
+        if (recipe != null && !recipeList.isEmpty() && recipeList.containsKey(id)) {
+            return recipeList.put(id, recipe);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean deleteRecipe(long id) {
+        if (recipeList.containsKey(id)) {
+            recipeList.remove(id);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void deleteAllRecipe() {
+        recipeList = new LinkedHashMap<>();
+    }
+
+    @Override
+    public String findRecipeByIngredient(long id) {
+        List<Recipe> foundedRecipeList = new ArrayList<>();
+
+        if (!IngredientServiceImpl.getIngredientList().containsKey(id)) {
+            return null;
+        } else {
+            Ingredient ingredient = IngredientServiceImpl.getIngredientList().get(id);
+            for (Recipe recipe : recipeList.values()) {
+                if (recipe.getIngredients().contains(ingredient)) {
+                    foundedRecipeList.add(recipe);
+                }
+            }
+            return foundedRecipeList.toString();
+        }
     }
 
     public void putDefaultRecipes() {
